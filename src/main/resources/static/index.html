@@ -1,0 +1,81 @@
+<html>
+
+<body>
+<h1>Test</h1>
+<div id="data-container"></div>
+
+<br><br>
+
+<label>Id:</label>
+<input type="text" id="id-input"><br><br>
+<label>Name:</label>
+<input type="text" id="name-input"><br><br>
+<button id="add-data">Add</button>
+
+<script>
+    const url = "http://localhost:8080/data";
+
+    const dataContainer = document.getElementById("data-container");
+
+    const inputs = document.querySelectorAll("input");
+    const idInput = inputs[0];
+    const nameInput = inputs[1];
+
+    const addDataButton = document.querySelector("button");
+    addDataButton.onclick = addData;
+
+    getData();
+
+    function getData() {
+       fetch(url, {
+        'method': 'GET'
+       })
+       .then(response => response.json())
+       .then(dataList => {
+            dataContainer.innerHTML = "";
+
+            for (const data of dataList) {
+               const innerDiv = document.createElement("div");
+
+               const idDiv = document.createElement("div");
+               const nameDiv = document.createElement("div");
+
+               idDiv.innerHTML = `Id: ${data.id}`;
+               nameDiv.innerHTML = `Name: ${data.name}`;
+
+               innerDiv.appendChild(idDiv);
+               innerDiv.appendChild(nameDiv);
+               innerDiv.appendChild(document.createElement("br"));
+
+               dataContainer.appendChild(innerDiv);
+           }
+       });
+    }
+
+    function addData() {
+        const id = idInput.value;
+        const name = nameInput.value;
+
+        const data = {
+            id: id,
+            name: name
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+       })
+       .then(response => {
+            console.log("Object added");
+
+            getData();
+       });
+    }
+</script>
+</body>
+
+</html>
