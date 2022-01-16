@@ -24,4 +24,8 @@ public class DataService {
     public void addData(Data data) {
         allData.put(data.id, data);
     }
+
+    public void deleteData(long id) {
+        allData.remove(id);
+    }
 }

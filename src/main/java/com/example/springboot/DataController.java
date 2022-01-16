@@ -23,4 +23,9 @@ public class DataController {
     public void addData(@RequestBody Data data) {
         service.addData(data);
     }
+
+    @DeleteMapping
+    public void deleteData(@RequestParam long id) {
+        service.deleteData(id);
+    }
 }

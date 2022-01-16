@@ -40,11 +40,20 @@
                const idDiv = document.createElement("div");
                const nameDiv = document.createElement("div");
 
+               const deleteButton = document.createElement("button");
+               deleteButton.innerHTML = 'delete';
+
+               deleteButton.onclick = () => {
+                    removeData(data.id);
+               };
+
+
                idDiv.innerHTML = `Id: ${data.id}`;
                nameDiv.innerHTML = `Name: ${data.name}`;
 
                innerDiv.appendChild(idDiv);
                innerDiv.appendChild(nameDiv);
+               innerDiv.appendChild(deleteButton);
                innerDiv.appendChild(document.createElement("br"));
 
                dataContainer.appendChild(innerDiv);
@@ -72,6 +81,19 @@
        .then(response => {
             console.log("Object added");
 
+            getData();
+       });
+    }
+
+    function removeData(id) {
+
+        const idParam = url + "?id=" + id;
+        fetch(idParam, {
+            method: 'DELETE'
+
+       })
+       .then(response => {
+            console.log("Object removed");
             getData();
        });
     }
